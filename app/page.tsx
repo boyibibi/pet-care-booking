@@ -101,10 +101,10 @@ export default function HomePage() {
               </div>
               <div className="appointment">
                 <div>
-                  <b>今日余位：16:30 / 19:00</b>
-                  <span>电话 021-8866-2036 · 上海静安区梧桐路 18 号</span>
+                  <b>营业时间：周一至周日 10:00 - 21:00</b>
+                  <span>电话 15738203964 · 商丘市梁园区商鼎路实训楼</span>
                 </div>
-                <a className="button secondary" href="tel:02188662036">
+                <a className="button secondary" href="tel:15738203964">
                   拨打
                 </a>
               </div>
@@ -205,7 +205,7 @@ export default function HomePage() {
                 <h3>门店信息</h3>
                 <div className="info-row">
                   <b>地址</b>
-                  <span>上海市静安区梧桐路 18 号 1F</span>
+                  <span>商丘市梁园区商鼎路实训楼</span>
                 </div>
                 <div className="info-row">
                   <b>营业</b>
@@ -213,7 +213,7 @@ export default function HomePage() {
                 </div>
                 <div className="info-row">
                   <b>电话</b>
-                  <span>021-8866-2036</span>
+                  <span>15738203964</span>
                 </div>
                 <div className="info-row">
                   <b>后台</b>
