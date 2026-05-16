@@ -45,9 +45,16 @@ export default async function AdminPage() {
             <h1>预约管理</h1>
             <p className="lead">查看最近 100 条预约。第一版先做只读列表，后续可以加状态修改、短信通知和排班。</p>
           </div>
-          <Link className="button secondary" href="/">
-            返回首页
-          </Link>
+          <div className="admin-actions">
+            <Link className="button secondary" href="/">
+              返回首页
+            </Link>
+            <form action="/api/logout" method="post">
+              <button className="button secondary" type="submit">
+                退出登录
+              </button>
+            </form>
+          </div>
         </div>
 
         {errorMessage ? <div className="form-note error">{errorMessage}</div> : null}

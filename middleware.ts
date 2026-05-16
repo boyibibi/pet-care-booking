@@ -1,35 +1,34 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
+const AUTH_COOKIE = "pet_admin_auth";
+
+export async function middleware(request: NextRequest) {
   const adminPassword = process.env.ADMIN_PASSWORD;
 
   if (!adminPassword) {
     return new NextResponse("Admin password is not configured.", { status: 500 });
   }
 
-  const authorization = request.headers.get("authorization");
+  const token = request.cookies.get(AUTH_COOKIE)?.value;
+  const expectedToken = await createAdminToken(adminPassword);
 
-  if (!authorization?.startsWith("Basic ")) {
-    return unauthorized();
+  if (token === expectedToken) {
+    return NextResponse.next();
   }
 
-  const encoded = authorization.slice("Basic ".length);
-  const [, password] = atob(encoded).split(":");
+  const loginUrl = new URL("/login", request.url);
+  loginUrl.searchParams.set("next", request.nextUrl.pathname);
 
-  if (password !== adminPassword) {
-    return unauthorized();
-  }
-
-  return NextResponse.next();
+  return NextResponse.redirect(loginUrl);
 }
 
-function unauthorized() {
-  return new NextResponse("需要管理员密码", {
-    status: 401,
-    headers: {
-      "WWW-Authenticate": 'Basic realm="Pet Care Admin"'
-    }
-  });
+async function createAdminToken(password: string) {
+  const data = new TextEncoder().encode(`pet-care-admin:${password}`);
+  const digest = await crypto.subtle.digest("SHA-256", data);
+
+  return Array.from(new Uint8Array(digest))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 export const config = {
